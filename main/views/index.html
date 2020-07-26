@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Message Board</title>
+	<!-- 
+		浏览器收到HTML响应内容后，就要开始从上到下依次解析，
+		当在解析过程中，如果发现：
+			link
+			script
+			img
+			iframe
+			video
+			audio
+		等带有src或者(link的)href属性（具有外链资源）的时候，浏览器会自动对这些资源发起新的请求
+	 -->
+	<!-- <link rel="stylesheet" href=""> -->
+	<style>
+		ol {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+		.wrapper {
+			width: 720px;
+			margin: 0 auto;
+		}
+		.header {
+			width: 100%;			
+			position: relative;
+		}
+
+		h2 {
+			position: absolute;
+			top: 25px;
+			left: 240px;
+		}
+
+		input {
+			display: block;
+			margin-top: 20px;
+			border: 0;
+			outline: none;
+			background: #EEB422;
+			font-size: 18px;
+			color: #fff;
+			padding: 5px 20px;
+			border-radius: 12px;
+			cursor: pointer;
+		}
+
+		input:active {
+			background: #ff9933;
+		}
+
+		li {
+			padding: 10px 0 2px;
+			border-bottom: 1px dashed #eee;
+			word-wrap:break-word; 
+			word-break:break-all; 
+			overflow: hidden;
+		}
+
+		.messages {
+			border-top: 3px double #ccc;
+			margin-top: 20px;
+		}
+
+		.name {
+			color: orange;
+			font-weight: bold;
+		}
+
+		.content {
+			color: #333;
+		}
+
+		.date {
+			font-size: 12px;
+			float: right;
+			color: #bbb;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrapper">
+		<div class="header">
+		<!-- 
+			注意：在服务端中，文件的路径不要写相对路径
+			因为这些资源都是通过url标识来获取的
+			/ url根路径
+			把所有的路径都想象成网络地址
+		 -->
+			<img id="band" src="/public/imgs/band.png" alt="">
+			<h2>留言区 MESSAGE BOARD</h2>
+			<input type="button" name="" value="点击留言">
+		</div>
+		<div class="messages">
+			<h3>历史留言记录</h3>
+			<ol>
+				{{ each comments }}
+				<li><span class="name">{{ $value.uname }}</span><span class="date">{{ $value.date }}</span><p class="content">{{ $value.message }}</p></li>
+				{{ /each }}
+			</ol>
+		</div>
+	</div>	
+	<script>
+		var btn = document.querySelector('input')
+		btn.addEventListener('click', function () {
+			window.location.href = '/post'
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Write a message</title>
+	<link rel="stylesheet" href="">
+	<style>
+		.wrapper {
+			width: 720px;
+			margin: 0 auto;
+		}
+
+		a {
+			text-decoration: none;
+		}
+		#itext {
+			outline: none;
+			border: 2px dashed #eee;
+			/*border: 0;*/
+			/*background: #eedc82;*/
+			font-size: 16px;
+			color: #666;
+			width: 220px;
+			height: 30px;
+			padding: 0 10px;
+			border-radius: 8px;
+		}
+
+		textarea {
+			resize: none;
+			width: 350px;
+			height: 120px;
+			padding: 10px;
+			font-size: 16px;
+			color: #666;
+			outline: none;
+			border: 2px dashed #eee;
+			border-radius: 15px;
+		}
+
+		#button {
+			display: block;
+			outline: none;
+			/*border: 2px solid #eee;*/
+			border: 0;
+			/*background: #EEB422;*/
+			font-size: 16px;
+			/*background: #fff;*/
+			width: 80px;
+			height: 50px;
+			cursor: pointer;
+			margin-top: 20px;
+			border-radius: 5px;
+		}
+
+		#button:active {
+			border: 2px solid #EEB422;
+		}
+		
+		.typing {
+			background: orange;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrapper">
+		<!-- 
+			以前表单提交方式：
+			表单中需要提交的表单控件元素必须具有name属性
+			表单提交分为：
+				1. 默认的提交行为
+				2. 表单异步提交
+				action 表单提交的地址
+				method 请求方法 get / post
+		 -->
+		<form action="/message" method="get">
+			<a href="/">◀ 返回</a>
+			<h2>写留言 WRITE A MESSAGE</h2>
+			<p>ID/用户名/昵称/邮箱</p>
+			<input id="itext" type="text" name="uname" required minlength="2" maxlength="10" placeholder="hioks">
+			<p>留言内容</p>
+			<textarea name="message" required placeholder="请输入..."></textarea>
+			<input type="submit" id="button" value="提交">
+		</form>
+	</div>
+	
+	<script>
+		var btn = document.querySelector('#button')
+		var ta = document.querySelector('textarea')
+		// btn.addEventListener('click', function () {
+		// 	window.location.href = '/'
+		// })
+		ta.addEventListener('keyup', function () {
+			if (this.value !== '') {
+				btn.className = "typing"
+			} else {
+				btn.className = ""
+			}
+		})
+	</script>
+</body>
+</html>
