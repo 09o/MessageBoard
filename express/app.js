@@ -33,7 +33,11 @@ var app = express()
 app.use('/public/', express.static('public'))
 // app.use(express.static('./public'))
 
+app.engine('html', require('express-art-template'))
+app.set('view engine', 'html')
+
 app.get('/', function (req, res) {
+	/*
 	fs.readFile('./views/index.html', function (err, data) {
 		if (err) {
 			return res.end('404 Page Not Found.')
@@ -43,6 +47,8 @@ app.get('/', function (req, res) {
 		})
 		res.end(data)
 	})
+	*/
+	res.render('index.html', {comments: comments})
 })
 
 app.get('/post', function (req, res) {
