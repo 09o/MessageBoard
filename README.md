@@ -1,6 +1,9 @@
 # 【初识Node.js】用Node.js搭建一个简易留言板
 
-## 开始
+## <span id="tohead">开始</span>
+
+> 07/27 更新 使用了Expres框架来搭建 [跳转查看](#jump)
+
 使用Node.js来简单实现一个留言板的基本功能
 - 获取表单数据
 - 提交表单重定向页面同时更新页面数据
@@ -104,7 +107,73 @@
 >2) 在响应头中通过Location告诉客户端往哪重定向 `setHeader`;
 如果客户端发现收到服务器的状态响应码为**302**就会自动去响应头中找Location
 
+---
+## <span id="jump">【07/27update】使用Express框架来重新构造服务器内容</span>
 
-## 总结
+安装Express框架
+```
+1. npm init -y  > 使用 npm init 命令为应用程序创建 package.json 文件，加上 -y 使用默认配置
+2. npm install express --save > 添加 --save  用于将Express保存在依赖列表中
+```
+开始使用Express来构建服务器：
+1. 在代码中引用框架
+```
+var express = require('express')
+```
+2. 创建服务器应用程序( 这行代码类似于 `http.createServer`)
+```
+var app = express()
+```
+3. 获取请求
+```
+app.get('/', function (req, res) {
+  res.end('hello expressjs')
+})
+```
+4. 绑定端口号
+```
+app.listen(3000, function () {
+  console.log('app is running at port 3000.')
+})
+```
+
+与之前使用`http`模块创建服务器的步骤方法一样，但`Express`框架提供的方法更加灵活。
+在`Express`框架中要使用外部资源的方法：
+```
+将包含静态资源的目录的名称传递给 express.static 中间件函数，以便开始直接提供这些文件
+1. app.use(express.static('public'))
+>> http://localhost:3000/images/kitten.jpg
+>> http://localhost:3000/css/style.css
+>> http://localhost:3000/js/app.js
+>> http://localhost:3000/images/bg.png
+>> http://localhost:3000/hello.html
+
+要为 express.static 函数提供的文件创建虚拟路径前缀（路径并不实际存在于文件系统中），要为静态目录指定安装路径
+2. app.use('/public/', express.static('public'))
+>> http://localhost:3000/public/images/kitten.jpg
+>> http://localhost:3000/public/css/style.css
+>> http://localhost:3000/public/js/app.js
+>> http://localhost:3000/public/images/bg.png
+>> http://localhost:3000/public/hello.html
+```
+上面两种方法的区别就是：
+- 方式一： `Express` 是相对于静态目录查找文件，因此静态目录的名称不是此 URL 的一部分。
+- 方式二： 访问具有 `/public` 路径前缀的 public 目录中的文件，如果路径中不添加 `/public` 则访问不到文件
+
+##### 当使用第一种方法时：
+![loc5](./imgs/location5.png)
+> 路径中不带 /public/ 可以正常访问到文件
+
+##### 而当在路径中加上`/public/`就会找不到文件
+![loc3](./imgs/location3.png)
+
+##### 要解决这个问题，只需要将html文件中的资源文件的引用路径做一个修改
+![loc4](./imgs/location4.png)
+
+
+---
+## 总结 [👆](#tohead)
 
 实现了一个基础的服务器，对于请求的发送，与如何把数据从服务器发送给客户端的问题有了一个解决方法。也认识和了解到了服务器运行的一些基本知识与逻辑。
+
+使用`Express`框架能更加迅速、快捷、直观的将服务器的基本框架构建出来，不同于`http`模块中繁琐的发送请求事件方法，`Express`可以更加清晰明了的处理每一个事件操作。相信在后续的学习之中可以探索到它更加强大且好用的功能。
